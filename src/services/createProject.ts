@@ -1,8 +1,8 @@
-import { CoreEditorData, CameraData, SceneData } from "../types/ProjectsData";
+import { CoreEditorData, CameraData, SceneData } from "../types/ProjectData";
 import { ObjectId } from "mongodb";
 import { Project } from "../types/Projects";
 import { v4 as uuidv4 } from "uuid";
-import { SceneObj } from "../types/ProjectsData";
+import { SceneObj } from "../types/ProjectData";
 
 export const createProject = (_id: ObjectId, name: string) => {
   const editor: CoreEditorData = {
@@ -42,7 +42,7 @@ const createDefaultSceneContent = () => {
         {
           id: uuidv4(),
           transform: {
-            position: [0.5, 0, 0],
+            position: [0.2, 0.05, 0],
             rotation: [0, 0, 0],
             scale: [1, 1, 1],
           },
@@ -58,7 +58,7 @@ const createDefaultSceneContent = () => {
         {
           id: uuidv4(),
           transform: {
-            position: [0, 0, 0.5],
+            position: [0, 0, 0.2],
             rotation: [0, 0, 0],
             scale: [1, 1, 1],
           },
@@ -74,7 +74,7 @@ const createDefaultSceneContent = () => {
         {
           id: uuidv4(),
           transform: {
-            position: [0, 0, -0.5],
+            position: [0, 0, -0.2],
             rotation: [0, 0, 0],
             scale: [1, 1, 1],
           },

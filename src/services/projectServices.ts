@@ -1,7 +1,8 @@
-import { ObjectId } from "mongodb";
+import { ChangeStream, ChangeStreamDocument, ObjectId } from "mongodb";
 import { Project } from "../types/Projects";
 import { db } from "../db/db";
 import { createProject } from "./createProject";
+import { socket } from "../socket/clientUpdate";
 
 const getAllProjects = async () => {
   try {
@@ -21,9 +22,7 @@ const getProjectById = async (id: ObjectId) => {
   }
 };
 
-const addProject = async (
-  projectname: string | undefined,
-) => {
+const addProject = async (projectname: string | undefined) => {
   const _id = new ObjectId();
   const project = createProject(_id, projectname ?? _id.toString());
   try {
@@ -64,10 +63,37 @@ const deleteProject = async (id: ObjectId) => {
   }
 };
 
+let changeStream: ChangeStream | null = null;
+
+const watchProjects = async () => {
+  const callback = (change: ChangeStreamDocument) => {
+    if (change.operationType === "update") {
+      const updatedFields = change.updateDescription?.updatedFields;
+      if (!updatedFields) {
+        return;
+      }
+    //   console.log("change", updatedFields);
+      socket.updateProject(change.documentKey._id.toString(), updatedFields);
+    }
+  };
+  changeStream = await db.watchCollection("projects", callback);
+  console.log("watching projects");
+};
+
+const stopWatchingProjects = async () => {
+  if (!changeStream) {
+    throw new Error("No change stream to close");
+  }
+  await db.closeChangeStream(changeStream);
+  changeStream = null;
+};
+
 export const projectServices = {
   getAllProjects,
   getProjectById,
   addProject,
   updateProject,
   deleteProject,
+  watchProjects,
+  stopWatchingProjects,
 };

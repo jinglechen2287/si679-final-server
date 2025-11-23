@@ -50,10 +50,10 @@ export type CameraData = {
   pitch: number;
 };
 
-export type ProjectsData = Partial<{
+export type ProjectData = {
   scene: SceneData;
   editor: CoreEditorData;
   camera: CameraData;
   edited_by_client: string;
-  edited_at: string;
-}>;
+  edited_at: Date;
+};

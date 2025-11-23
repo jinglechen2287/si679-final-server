@@ -1,5 +1,6 @@
 import { MongoClient, Db, ObjectId } from "mongodb";
 import type { Collection, CollectionFields } from "../types/Collection";
+import type { ChangeStream } from "mongodb";
 
 let mongoClient: MongoClient | null = null;
 let theDb: Db | null = null;
@@ -29,11 +30,17 @@ const getAllProjectsBasicInfo = async () => {
   if (!mongoClient) {
     await init();
   }
-  const allDocs = await theDb?.collection("projects").find({}, { projection: { _id: 1, name: 1, edited_at: 1 } });
+  const allDocs = await theDb
+    ?.collection("projects")
+    .find({}, { projection: { _id: 1, name: 1, edited_at: 1 } });
   if (!allDocs) {
     return [];
   }
-  return allDocs.toArray() as unknown as { _id: ObjectId; name: string; edited_at: Date }[];
+  return allDocs.toArray() as unknown as {
+    _id: ObjectId;
+    name: string;
+    edited_at: Date;
+  }[];
 };
 
 const getAllInCollection = async <T extends Collection>(collectionName: T) => {
@@ -128,6 +135,30 @@ const updateCollectionItem = async <T extends Collection>(
   }
 };
 
+const watchCollection = async <T extends Collection>(
+  collectionName: T,
+  callback: (change: any) => void
+) => {
+  if (!mongoClient) {
+    await init();
+  }
+
+  // get a change stream by calling collection.watch()
+  const changeStream = await theDb!.collection(collectionName).watch();
+
+  // define an event handler to fire on any change to the collection
+  changeStream.on("change", (change) => {
+    // console.log(change);
+    callback(change);
+  });
+  console.log("watching collection", collectionName);
+  return changeStream;
+};
+
+const closeChangeStream = async (changeStream: ChangeStream) => {
+  changeStream.close();
+};
+
 export const db = {
   init,
   close,
@@ -138,4 +169,6 @@ export const db = {
   addToCollection,
   deleteFromCollectionById,
   updateCollectionItem,
+  watchCollection,
+  closeChangeStream,
 };

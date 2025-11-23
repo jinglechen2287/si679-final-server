@@ -2,11 +2,13 @@ import express from "express";
 import { userRouter } from "./routes/userRoutes";
 import { projectRouter } from "./routes/projectRoutes";
 import { errorHandler } from "./middleware/errorHandler";
+import { projectServices } from "./services/projectServices";
 
 import cors from "cors";
 import fs from "fs";
 import https from "https";
 import dotenv from "dotenv";
+import { socket } from "./socket/clientUpdate";
 
 dotenv.config();
 
@@ -23,6 +25,8 @@ app.get("/", (_, res) => {
 app.use("/users", userRouter);
 app.use("/projects", projectRouter);
 
+projectServices.watchProjects();
+
 app.use(errorHandler);
 
 const httpsOptions = {
@@ -30,6 +34,10 @@ const httpsOptions = {
   cert: fs.readFileSync("localhost.pem"),
 };
 
-https.createServer(httpsOptions, app).listen(port, () => {
+const server = https.createServer(httpsOptions, app);
+
+socket.initSocket(server);
+
+server.listen(port, () => {
   console.log(`HTTPS server running at https://localhost:${port}`);
 });
