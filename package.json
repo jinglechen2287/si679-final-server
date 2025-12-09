@@ -8,7 +8,9 @@
   "scripts": {
     "dev": "nodemon",
     "build": "tsc",
-    "start": "nodemon"
+    "start": "nodemon",
+    "test": "jest",
+    "coverage": "jest --coverage"
   },
   "dependencies": {
     "bcrypt": "^6.0.0",
@@ -24,10 +26,13 @@
     "@types/bcrypt": "^6.0.0",
     "@types/cors": "^2.8.19",
     "@types/express": "^5.0.3",
+    "@types/jest": "^30.0.0",
     "@types/jsonwebtoken": "^9.0.10",
     "@types/node": "^24.3.0",
+    "jest": "^30.2.0",
     "mongodb-memory-server": "^10.3.0",
     "nodemon": "^3.1.10",
+    "ts-jest": "^29.4.6",
     "ts-node": "^10.9.2",
     "typescript": "^5.9.2"
   }

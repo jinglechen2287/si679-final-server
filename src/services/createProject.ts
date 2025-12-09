@@ -33,7 +33,7 @@ export const createProject = (_id: ObjectId, name: string) => {
   } as Project;
 };
 
-const createDefaultSceneContent = () => {
+export const createDefaultSceneContent = () => {
   const content: Record<string, SceneObj> = {
     [uuidv4()]: {
       type: "sphere",
