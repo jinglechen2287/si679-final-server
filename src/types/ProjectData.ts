@@ -1,4 +1,4 @@
-// This file should be the same as the client-side types/index.ts
+// This file should be the same as the client-side types/projectData.ts
 // Except for Vector3Tuple, which is imported from three.js on the client side
 
 export type Vector3Tuple = [number, number, number];

@@ -1,3 +1,4 @@
+// This file should be the same as the client-side types/projects.ts
 import { ObjectId } from "mongodb";
 import { ProjectData } from "./ProjectData";
 

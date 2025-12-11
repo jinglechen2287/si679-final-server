@@ -1,3 +1,4 @@
+// This file should be the same as the client-side types/users.ts
 import { ObjectId } from "mongodb";
 
 export interface User {
