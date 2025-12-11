@@ -22,8 +22,8 @@ app.get("/", (_, res) => {
   res.send("Hello World!");
 });
 
-app.use("/users", userRouter);
-app.use("/projects", projectRouter);
+app.use("/api/users", userRouter);
+app.use("/api/projects", projectRouter);
 
 projectServices.watchProjects();
 
