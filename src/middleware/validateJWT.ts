@@ -2,7 +2,8 @@ import jwt from "jsonwebtoken";
 import fs from "fs";
 import { NextFunction, Request, Response } from "express";
 
-const PUBLIC_KEY = fs.readFileSync("jwt.key.pub", "utf8");
+
+const PUBLIC_KEY = fs.readFileSync(process.env.JWT_PUBLIC_KEY_PATH || "jwt.key.pub", "utf8");
 
 const validateJWT = (req: Request, res: Response, next: NextFunction) => {
   const authHeader = req.headers["authorization"];

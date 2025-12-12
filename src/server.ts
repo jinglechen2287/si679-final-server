@@ -30,8 +30,8 @@ projectServices.watchProjects();
 app.use(errorHandler);
 
 const httpsOptions = {
-  key: fs.readFileSync("localhost-key.pem"),
-  cert: fs.readFileSync("localhost.pem"),
+  key: fs.readFileSync(process.env.SSL_KEY_PATH || "localhost-key.pem"),
+  cert: fs.readFileSync(process.env.SSL_CERT_PATH || "localhost.pem"),
 };
 
 const server = https.createServer(httpsOptions, app);

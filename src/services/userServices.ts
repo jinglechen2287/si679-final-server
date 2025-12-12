@@ -5,7 +5,7 @@ import bcrypt from "bcrypt";
 import jwt from "jsonwebtoken";
 import fs from "fs";
 
-const PRIVATE_KEY = fs.readFileSync("jwt.key", "utf8");
+const PRIVATE_KEY = fs.readFileSync(process.env.JWT_PRIVATE_KEY_PATH || "jwt.key", "utf8");
 
 const SALT_ROUNDS = 12;
 
