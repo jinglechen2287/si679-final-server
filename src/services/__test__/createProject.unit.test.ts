@@ -1,6 +1,10 @@
 import { createProject, createDefaultSceneContent } from "../createProject";
 import { ObjectId } from "mongodb";
 
+jest.mock("crypto", () => ({
+  randomUUID: () => "test-uuid-1234",
+}));
+
 describe("createProject", () => {
   it("should create a project", () => {
     const id = new ObjectId();

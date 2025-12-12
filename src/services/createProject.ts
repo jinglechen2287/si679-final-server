@@ -1,7 +1,7 @@
 import { CoreEditorData, CameraData, SceneData } from "../types/ProjectData";
 import { ObjectId } from "mongodb";
 import { Project } from "../types/Projects";
-import { v4 as uuidv4 } from "uuid";
+import { randomUUID } from "crypto";
 import { SceneObj } from "../types/ProjectData";
 
 export const createProject = (_id: ObjectId, name: string) => {
@@ -35,12 +35,12 @@ export const createProject = (_id: ObjectId, name: string) => {
 
 export const createDefaultSceneContent = () => {
   const content: Record<string, SceneObj> = {
-    [uuidv4()]: {
+    [randomUUID()]: {
       type: "sphere",
       name: "Sphere",
       states: [
         {
-          id: uuidv4(),
+          id: randomUUID(),
           transform: {
             position: [0.2, 0.05, 0],
             rotation: [0, 0, 0],
@@ -51,12 +51,12 @@ export const createDefaultSceneContent = () => {
         },
       ],
     },
-    [uuidv4()]: {
+    [randomUUID()]: {
       type: "cube",
       name: "Cube",
       states: [
         {
-          id: uuidv4(),
+          id: randomUUID(),
           transform: {
             position: [0, 0, 0.2],
             rotation: [0, 0, 0],
@@ -67,12 +67,12 @@ export const createDefaultSceneContent = () => {
         },
       ],
     },
-    [uuidv4()]: {
+    [randomUUID()]: {
       type: "cone",
       name: "Cone",
       states: [
         {
-          id: uuidv4(),
+          id: randomUUID(),
           transform: {
             position: [0, 0, -0.2],
             rotation: [0, 0, 0],
